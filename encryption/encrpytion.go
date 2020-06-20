@@ -63,7 +63,6 @@ func (c *Client) GenerateRandomString(length int) (result string) {
 	b := make([]byte, length)
 	for i := range b {
 		b[i] = letterBytes[mathRand.Intn(len(letterBytes))]
-
 	}
 	result = string(b)
 	return
