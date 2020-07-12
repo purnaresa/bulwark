@@ -21,36 +21,12 @@ func TestClient_generateRandomString(t *testing.T) {
 			args: args{
 				length: 32,
 			},
-			wantResult: 31,
-		},
-		{
-			name: "happy case",
-			c:    c,
-			args: args{
-				length: 32,
-			},
-			wantResult: 31,
-		},
-		{
-			name: "happy case",
-			c:    c,
-			args: args{
-				length: 32,
-			},
-			wantResult: 31,
-		},
-		{
-			name: "happy case",
-			c:    c,
-			args: args{
-				length: 32,
-			},
-			wantResult: 31,
+			wantResult: 32,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotResult := tt.c.generateRandomString(tt.args.length)
+			gotResult := tt.c.GenerateRandomString(tt.args.length)
 			if len(gotResult) != tt.wantResult {
 				t.Errorf("Client.generateRandomString() = len(%v), want %v", gotResult, tt.wantResult)
 			}
