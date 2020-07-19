@@ -5,35 +5,29 @@ import (
 	"crypto/rsa"
 	"crypto/sha256"
 	"encoding/base64"
-	"errors"
 	"log"
 )
 
 type Client struct {
 	Private *rsa.PrivateKey
-	Publics map[string]*rsa.PublicKey
+	Public  *rsa.PublicKey
 }
 
-func NewClient(private *rsa.PrivateKey, publics map[string]*rsa.PublicKey) (client *Client) {
+func NewClient(private *rsa.PrivateKey, public *rsa.PublicKey) (client *Client) {
 	client = &Client{
 		Private: private,
-		Publics: publics,
+		Public:  public,
 	}
 	return
 }
 
-func (c *Client) Encrypt(plainData []byte, target string) (cipherData []byte, err error) {
+func (c *Client) Encrypt(plainData []byte) (cipherData []byte, err error) {
 
 	hash := sha256.New()
-	targetPubKey, valid := c.Publics[target]
-	if valid == false {
-		err = errors.New("target Public Key not found")
-		return
-	}
 	cipherData, err = rsa.EncryptOAEP(
 		hash,
 		rand.Reader,
-		targetPubKey,
+		c.Public,
 		[]byte(plainData),
 		[]byte(""),
 	)
@@ -44,8 +38,8 @@ func (c *Client) Encrypt(plainData []byte, target string) (cipherData []byte, er
 	return
 }
 
-func (c *Client) EncryptToBase64(plainData []byte, target string) (cipherData string, err error) {
-	cipherDataByte, err := c.Encrypt(plainData, target)
+func (c *Client) EncryptToBase64(plainData []byte) (cipherData string, err error) {
+	cipherDataByte, err := c.Encrypt(plainData)
 	if err != nil {
 		return
 	}

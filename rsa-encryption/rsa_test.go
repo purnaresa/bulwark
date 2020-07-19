@@ -79,13 +79,11 @@ MLNLCZynmcufzcafMuo8J6kCAwEAAQ==
 
 func TestClient_Encrypt(t *testing.T) {
 	privateKey, _ := utils.ReadPrivateKey([]byte(alicePrivKey))
-	publicKeyAlice, _ := utils.ReadPublicKey([]byte(alicePubKey))
-	publicKey := make(map[string]*rsa.PublicKey)
-	publicKey["alice"] = publicKeyAlice
+	publicKey, _ := utils.ReadPublicKey([]byte(alicePubKey))
 
 	type fields struct {
 		Private *rsa.PrivateKey
-		Publics map[string]*rsa.PublicKey
+		Publics *rsa.PublicKey
 	}
 	type args struct {
 		plainData []byte
@@ -105,7 +103,6 @@ func TestClient_Encrypt(t *testing.T) {
 			},
 			args: args{
 				plainData: []byte("Hello, my name is alice"),
-				target:    "alice",
 			},
 			wantErr: false,
 		},
@@ -116,7 +113,7 @@ func TestClient_Encrypt(t *testing.T) {
 				tt.fields.Private,
 				tt.fields.Publics)
 
-			gotCipherData, err := c.Encrypt(tt.args.plainData, tt.args.target)
+			gotCipherData, err := c.Encrypt(tt.args.plainData)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Client.Encrypt() error = %v, wantErr %v", err, tt.wantErr)
 				return
