@@ -28,6 +28,7 @@ func WriteFile(content []byte, filename string) (err error) {
 	}
 	return
 }
+
 func ReadPublicKeyFile(filepath string) (publicKey *rsa.PublicKey, err error) {
 	pubPEM, err := ioutil.ReadFile(filepath)
 	if err != nil {
