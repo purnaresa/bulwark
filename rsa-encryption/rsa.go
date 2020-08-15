@@ -47,6 +47,22 @@ func New(privateKey []byte, publicKeys map[string][]byte) (client *Client, err e
 	return
 }
 
+func EncryptDefault(plainData, publicKey []byte) (cipherData string, err error) {
+	publicKeys := make(map[string][]byte)
+	publicKeys["default"] = publicKey
+	client, err := New(nil, publicKeys)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	cipherData, err = client.EncryptToBase64(plainData, "default")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	return
+}
+
 // GenerateKeyPair is a function to generate new Private and Public key pair
 // The function receive no input. The output is private and public key in []byte
 //
