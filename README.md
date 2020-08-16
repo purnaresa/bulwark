@@ -7,4 +7,5 @@ Example 1 : Image encryption (https://medium.com/swlh/protect-image-file-using-e
 
 **RSA Encryption**
 
-Example 1 : Secure API (in progress)
+Example 1 : Generate RSA key pair (https://purnaresa.co/build-rsa-private-public-key-generator-in-go/)
+Example 2 : Secure API (in progress)
