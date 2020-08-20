@@ -26,7 +26,7 @@ func EncryptDefault(plainData, publicKey []byte) (cipherData string, err error) 
 	return
 }
 
-func DecryptDefault(ciphertext, privateKey []byte) (plainData []byte, err error) {
+func DecryptDefault(ciphertext string, privateKey []byte) (plainData []byte, err error) {
 	client, err := New(privateKey, nil)
 	if err != nil {
 		log.Println(err)
@@ -140,12 +140,12 @@ func (c *Client) Decrypt(cipherData []byte) (plainData []byte, err error) {
 	return
 }
 
-func (c *Client) DecryptFromBase64(cipherData []byte) (plainData []byte, err error) {
-	cipherData, err = base64.StdEncoding.DecodeString(string(cipherData))
+func (c *Client) DecryptFromBase64(cipherdata string) (plainData []byte, err error) {
+	cipherdataByte, err := base64.StdEncoding.DecodeString(cipherdata)
 	if err != nil {
 		return
 	}
-	plainData, err = c.Decrypt(cipherData)
+	plainData, err = c.Decrypt(cipherdataByte)
 	if err != nil {
 		return
 	}

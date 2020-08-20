@@ -109,7 +109,7 @@ func TestEncryptDefault(t *testing.T) {
 				return
 			}
 
-			plainText, err := DecryptDefault([]byte(gotCipherData), tt.args.privateKey)
+			plainText, err := DecryptDefault(gotCipherData, tt.args.privateKey)
 			if !reflect.DeepEqual(tt.args.plainData, plainText) {
 				t.Errorf("EncryptDefault() = %v, want %v", plainText, tt.args.plainData)
 			}

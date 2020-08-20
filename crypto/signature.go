@@ -4,24 +4,26 @@ import (
 	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
+	"encoding/base64"
 	"log"
 )
 
-func SignDefault(plaintext, privateKey []byte) (signature []byte, err error) {
+func SignDefault(plaintext, privateKey []byte) (signature string, err error) {
 	client, err := New(privateKey, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	signature, err = client.Sign(plaintext)
+	signatureByte, err := client.Sign(plaintext)
 	if err != nil {
 		log.Println(err)
 		return
 	}
+	signature = base64.StdEncoding.EncodeToString(signatureByte)
 	return
 }
 
-func VerifyDefault(plaintext, signature, publicKey []byte) (err error) {
+func VerifyDefault(plaintext, publicKey []byte, signature string) (err error) {
 	publicKeys := make(map[string][]byte)
 	publicKeys["default"] = publicKey
 	client, err := New(nil, publicKeys)
@@ -29,7 +31,14 @@ func VerifyDefault(plaintext, signature, publicKey []byte) (err error) {
 		log.Println(err)
 		return
 	}
-	err = client.Verify(plaintext, signature, "default")
+
+	signatureByte, err := base64.StdEncoding.DecodeString(signature)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	err = client.Verify(plaintext, signatureByte, "default")
 	if err != nil {
 		log.Println(err)
 		return

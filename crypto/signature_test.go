@@ -35,7 +35,7 @@ func TestSignDefault(t *testing.T) {
 				return
 			}
 
-			errVerify := VerifyDefault(tt.args.plaintext, gotSignature, tt.args.publicKey)
+			errVerify := VerifyDefault(tt.args.plaintext, tt.args.publicKey, gotSignature)
 			if (errVerify != nil) != tt.wantErr {
 				t.Errorf("SignDefault() error = %v, wantErr %v", err, tt.wantErr)
 				return
